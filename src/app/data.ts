@@ -1611,9 +1611,15 @@ export class TreningPodaci {
     }
 
     static get test() {
-        if (!this._vrednost)
-            this.upakujPodatke();
-        return this._vrednost.slice().filter((x, i) => i < 100);
+        const toReturn = [];
+        const tmp = this.vrednost.forEach(x => toReturn)
+        for (let i = 0; i < 100; i++) {
+            const element = this.vrednost[i];
+            const object = Object.assign({}, element);
+            delete object['quality'];
+            toReturn.push(object);
+        }
+        return toReturn;
     }
 
     private static upakujPodatke() {

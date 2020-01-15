@@ -11,15 +11,28 @@
   </table>
 </div>
 <br />
+<h3>Test:</h3>
+<div class="table-container">
+  <table mat-table [dataSource]="testPodaci" class="mat-elevation-z8" style="width: 100%;">
+    <ng-container *ngFor="let atribut of attributi" [matColumnDef]="atribut">
+      <th mat-header-cell *matHeaderCellDef>{{atribut}}</th>
+      <td mat-cell *matCellDef="let element">{{element[atribut]}}</td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="attributi; sticky: true;"></tr>
+    <tr mat-row *matRowDef="let row; columns: attributi;"></tr>
+  </table>
+</div>
+<br />
 <h3>Unesite vrednosne atribute:</h3>
 <form [formGroup]="formGroup" (ngSubmit)="proslediFormu()" autocomplete="off" style="width: 85%;">
-  <mat-form-field *ngFor="let atribut of vrednosniAtributi" [hideRequiredMarker]="false" style="width: 25%; border: 1px solid black; margin-right: 5px; margin-bottom: 5px;">
-    <input type="number" matInput [placeholder]="atribut" [formControlName]="atribut">
+  <mat-form-field *ngFor="let atribut of vrednosniAtributi; let i = index" [hideRequiredMarker]="false" style="width: 25%; border: 1px solid black; margin-right: 5px; margin-bottom: 5px;">
+    <input type="number" matInput [placeholder]="atribut" [formControlName]="atribut"
+      [max]="minMaksVrednosti[i].max" [min]="minMaksVrednosti[i].min" [title]="greska(atribut, i)">
   </mat-form-field>
   <button mat-raised-button color="primary" type="button" (click)="resetujFormu()" style="margin-bottom: 5px;">Resetuj formu</button>
   <br />
   <button mat-raised-button color="primary" type="submit" [disabled]="!formGroup.valid">Izracunaj kvalitet vina</button>
 </form>
 <br />
-<h3>Kvalitet vina (0-10):</h3>
+<h3>Kvalitet vina:</h3>
 <h1>{{kvalitetVina}}</h1>
