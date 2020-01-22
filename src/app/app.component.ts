@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import * as ID3 from 'decision-tree';
@@ -10,7 +10,7 @@ import { TreningPodaci } from './data';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent {
 
   treningPodaci: { [key: string]: any } = TreningPodaci.vrednost;
   testPodaci: { [key: string]: any } = TreningPodaci.test;
@@ -43,14 +43,6 @@ export class AppComponent implements AfterViewInit {
     this.vrednosniAtributi.forEach((x, i) => formObject[x] = this.fb.control(undefined, [Validators.required, Validators.min(this.minMaksVrednosti[i].min), Validators.max(this.minMaksVrednosti[i].max)]));
     this.formGroup = this.fb.group(formObject);
   }
-
-  ngAfterViewInit(): void {
-    this.testPodaci.forEach(x => {
-      const klasnaVrednost = this.stabloOdluke.predict(x);
-      x[this.klasniAtribut] = klasnaVrednost;
-    });
-  }
-
   resetujFormu(): void {
     const toReset = {};
     this.vrednosniAtributi.forEach(x => toReset[x] = undefined);
@@ -60,6 +52,13 @@ export class AppComponent implements AfterViewInit {
 
   proslediFormu(): void {
     this.kvalitetVina = this.stabloOdluke.predict(this.formGroup.value);
+  }
+
+  test(): void {
+    this.testPodaci.forEach(x => {
+      const klasnaVrednost = this.stabloOdluke.predict(x);
+      x[this.klasniAtribut] = klasnaVrednost;
+    });
   }
 
   greska(atribut: string, i: number): string {

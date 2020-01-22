@@ -12,6 +12,7 @@
 </div>
 <br />
 <h3>Test:</h3>
+<button mat-raised-button color="primary" type="button" (click)="test()" style="margin-bottom: 5px;">Test</button>
 <div class="table-container">
   <table mat-table [dataSource]="testPodaci" class="mat-elevation-z8" style="width: 100%;">
     <ng-container *ngFor="let atribut of attributi" [matColumnDef]="atribut">
