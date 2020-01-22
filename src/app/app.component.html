@@ -27,8 +27,11 @@
 <h3>Unesite vrednosne atribute:</h3>
 <form [formGroup]="formGroup" (ngSubmit)="proslediFormu()" autocomplete="off" style="width: 85%;">
   <mat-form-field *ngFor="let atribut of vrednosniAtributi; let i = index" [hideRequiredMarker]="false" style="width: 25%; border: 1px solid black; margin-right: 5px; margin-bottom: 5px;">
-    <input type="number" matInput [placeholder]="atribut" [formControlName]="atribut"
-      [max]="minMaksVrednosti[i].max" [min]="minMaksVrednosti[i].min" [title]="greska(atribut, i)">
+    <mat-select [placeholder]="atribut" [formControlName]="atribut" [title]="greska(atribut, i)">
+      <mat-option *ngFor="let vrednost of podaciZaKombo[atribut]" [value]="vrednost">
+        {{ vrednost }}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
   <button mat-raised-button color="primary" type="button" (click)="resetujFormu()" style="margin-bottom: 5px;">Resetuj formu</button>
   <br />
