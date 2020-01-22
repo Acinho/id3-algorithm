@@ -42,7 +42,7 @@ export class AppComponent {
 
   constructor(private fb: FormBuilder) {
     const formObject = {};
-    this.vrednosniAtributi.forEach((x, i) => formObject[x] = this.fb.control(undefined));//, [Validators.required, Validators.min(this.minMaksVrednosti[i].min), Validators.max(this.minMaksVrednosti[i].max)]));
+    this.vrednosniAtributi.forEach((x, i) => formObject[x] = this.fb.control(undefined, [Validators.required]));//, Validators.min(this.minMaksVrednosti[i].min), Validators.max(this.minMaksVrednosti[i].max)]));
     this.formGroup = this.fb.group(formObject);
     this.izvadiVrednosti();
   }
