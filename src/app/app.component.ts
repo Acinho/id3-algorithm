@@ -14,11 +14,11 @@ export class AppComponent {
 
   treningPodaci: { [key: string]: any }[] = TreningPodaci.vrednost;
   testPodaci: { [key: string]: any }[] = TreningPodaci.test;
-  attributi: string[] = TreningPodaci.atributi;
-  klasniAtribut: string = this.attributi[this.attributi.length - 1];
-  vrednosniAtributi: string[] = this.attributi.slice(0, this.attributi.length - 1);
+  atributi: string[] = TreningPodaci.atributi;
+  klasniAtribut: string = TreningPodaci.klasniAtribut;
+  vrednosniAtributi: string[] = TreningPodaci.vrednosniAtributi;
 
-  stabloOdluke = new ID3(this.treningPodaci, this.klasniAtribut, this.vrednosniAtributi);
+  stabloOdluke = new ID3(TreningPodaci.normalizujPodatke(this.treningPodaci), this.klasniAtribut, this.vrednosniAtributi);
   // preciznost = this.stabloOdluke.evaluate(this.testPodaci);
 
   // minMaksVrednosti = [
@@ -45,7 +45,9 @@ export class AppComponent {
     this.vrednosniAtributi.forEach((x, i) => formObject[x] = this.fb.control(undefined, [Validators.required]));//, Validators.min(this.minMaksVrednosti[i].min), Validators.max(this.minMaksVrednosti[i].max)]));
     this.formGroup = this.fb.group(formObject);
     this.izvadiVrednosti();
+    console.log(TreningPodaci.normalizujPodatke(this.treningPodaci));
   }
+
   resetujFormu(): void {
     const toReset = {};
     this.vrednosniAtributi.forEach(x => toReset[x] = undefined);
@@ -54,12 +56,15 @@ export class AppComponent {
   }
 
   proslediFormu(): void {
-    this.kvalitetVina = this.stabloOdluke.predict(this.formGroup.value);
+    const vino = TreningPodaci.normalizujPodatak(this.formGroup.value);
+    console.log(vino);
+    this.kvalitetVina = this.stabloOdluke.predict(vino);
   }
 
   test(): void {
     this.testPodaci.forEach(x => {
-      const klasnaVrednost = this.stabloOdluke.predict(x);
+      console.log(TreningPodaci.normalizujPodatak(x));
+      const klasnaVrednost = this.stabloOdluke.predict(TreningPodaci.normalizujPodatak(x));
       x[this.klasniAtribut] = klasnaVrednost;
     });
   }
@@ -79,7 +84,7 @@ export class AppComponent {
   }
 
   izvadiVrednosti(): void {
-    this.attributi.forEach(atribut => {
+    this.atributi.forEach(atribut => {
       this.podaciZaKombo[atribut] = this.treningPodaci.map(x => Number.parseFloat(x[atribut])).filter((x, i, a) => a.indexOf(x) == i).sort((x, y) => x - y);
     });
   }

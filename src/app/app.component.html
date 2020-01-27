@@ -2,12 +2,12 @@
 <h3>Trening podaci:</h3>
 <div class="table-container">
   <table mat-table [dataSource]="treningPodaci" class="mat-elevation-z8" style="width: 100%;">
-    <ng-container *ngFor="let atribut of attributi" [matColumnDef]="atribut">
+    <ng-container *ngFor="let atribut of atributi" [matColumnDef]="atribut">
       <th mat-header-cell *matHeaderCellDef>{{atribut}}</th>
       <td mat-cell *matCellDef="let element">{{element[atribut]}}</td>
     </ng-container>
-    <tr mat-header-row *matHeaderRowDef="attributi; sticky: true;"></tr>
-    <tr mat-row *matRowDef="let row; columns: attributi;"></tr>
+    <tr mat-header-row *matHeaderRowDef="atributi; sticky: true;"></tr>
+    <tr mat-row *matRowDef="let row; columns: atributi;"></tr>
   </table>
 </div>
 <br />
@@ -15,23 +15,25 @@
 <button mat-raised-button color="primary" type="button" (click)="test()" style="margin-bottom: 5px;">Test</button>
 <div class="table-container">
   <table mat-table [dataSource]="testPodaci" class="mat-elevation-z8" style="width: 100%;">
-    <ng-container *ngFor="let atribut of attributi" [matColumnDef]="atribut">
+    <ng-container *ngFor="let atribut of atributi" [matColumnDef]="atribut">
       <th mat-header-cell *matHeaderCellDef>{{atribut}}</th>
       <td mat-cell *matCellDef="let element">{{element[atribut]}}</td>
     </ng-container>
-    <tr mat-header-row *matHeaderRowDef="attributi; sticky: true;"></tr>
-    <tr mat-row *matRowDef="let row; columns: attributi;"></tr>
+    <tr mat-header-row *matHeaderRowDef="atributi; sticky: true;"></tr>
+    <tr mat-row *matRowDef="let row; columns: atributi;"></tr>
   </table>
 </div>
 <br />
 <h3>Unesite vrednosne atribute:</h3>
 <form [formGroup]="formGroup" (ngSubmit)="proslediFormu()" autocomplete="off" style="width: 85%;">
   <mat-form-field *ngFor="let atribut of vrednosniAtributi; let i = index" [hideRequiredMarker]="false" style="width: 25%; border: 1px solid black; margin-right: 5px; margin-bottom: 5px;">
-    <mat-select [placeholder]="atribut" [formControlName]="atribut" [title]="greska(atribut, i)">
+    <input type="number" matInput [placeholder]="atribut" [formControlName]="atribut"
+      [title]="greska(atribut, i)">
+    <!-- <mat-select [placeholder]="atribut" [formControlName]="atribut" [title]="greska(atribut, i)">
       <mat-option *ngFor="let vrednost of podaciZaKombo[atribut]" [value]="vrednost">
         {{ vrednost }}
       </mat-option>
-    </mat-select>
+    </mat-select> -->
   </mat-form-field>
   <button mat-raised-button color="primary" type="button" (click)="resetujFormu()" style="margin-bottom: 5px;">Resetuj formu</button>
   <br />
